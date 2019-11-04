@@ -489,7 +489,7 @@ eTable :: Inlines              -- ^ Caption
       -> [(String, String)]    -- ^ Attributes
       -> Blocks
 eTable caption cellspecs headers rows kvs = singleton $
-  Table (toList caption) aligns widths (sanitise headers) (map sanitise rows)
+  ETable (toList caption) aligns widths (sanitise headers) (map sanitise rows) kvs
     where (aligns, widths) = unzip cellspecs
           sanitise = map toList . pad mempty numcols
           numcols = length cellspecs
