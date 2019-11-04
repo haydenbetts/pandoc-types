@@ -341,6 +341,10 @@ walkBlockM f (Table capt as ws hs rs) = do capt' <- walkM f capt
                                            hs' <- walkM f hs
                                            rs' <- walkM f rs
                                            return $ Table capt' as ws hs' rs'
+walkBlockM f (ETable capt as ws hs rs ks) = do capt' <- walkM f capt
+                                           hs' <- walkM f hs
+                                           rs' <- walkM f rs
+                                           return $ ETable capt' as ws hs' rs' ks
 
 -- | Perform a query on elements nested below a @'Block'@ element by
 -- querying all directly nested lists of @Inline@s or @Block@s.
