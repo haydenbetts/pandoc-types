@@ -337,14 +337,14 @@ walkBlockM _ x@CodeBlock {}           = return x
 walkBlockM _ x@RawBlock {}            = return x
 walkBlockM _ HorizontalRule           = return HorizontalRule
 walkBlockM _ Null                     = return Null
-walkBlockM f (Table capt as ws hs rs) = do capt' <- walkM f capt
-                                           hs' <- walkM f hs
-                                           rs' <- walkM f rs
-                                           return $ Table capt' as ws hs' rs'
 walkBlockM f (ETable capt as ws hs rs ks) = do capt' <- walkM f capt
                                            hs' <- walkM f hs
                                            rs' <- walkM f rs
                                            return $ ETable capt' as ws hs' rs' ks
+walkBlockM f (Table capt as ws hs rs) = do capt' <- walkM f capt
+                                           hs' <- walkM f hs
+                                           rs' <- walkM f rs
+                                           return $ Table capt' as ws hs' rs'
 
 -- | Perform a query on elements nested below a @'Block'@ element by
 -- querying all directly nested lists of @Inline@s or @Block@s.
