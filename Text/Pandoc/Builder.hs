@@ -160,6 +160,7 @@ module Text.Pandoc.Builder ( module Text.Pandoc.Definition
                            , headerWith
                            , horizontalRule
                            , table
+                           , eTable
                            , simpleTable
                            , divWith
                            )
@@ -481,11 +482,11 @@ table caption cellspecs headers rows = singleton $
 
 -- | Table builder. Rows and headers will be padded or truncated to the size of
 -- @cellspecs@
-eTable :: Inlines               -- ^ Caption
+eTable :: Inlines              -- ^ Caption
       -> [(Alignment, Double)] -- ^ Column alignments and fractional widths
       -> [Blocks]              -- ^ Headers
       -> [[Blocks]]            -- ^ Rows
-      -> [(String, String)]                  -- ^ Attributes
+      -> [(String, String)]    -- ^ Attributes
       -> Blocks
 eTable caption cellspecs headers rows kvs = singleton $
   Table (toList caption) aligns widths (sanitise headers) (map sanitise rows)

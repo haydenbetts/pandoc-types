@@ -231,6 +231,7 @@ data Block
                             -- relative column widths (0 = default),
                             -- column headers (each a list of blocks), and
                             -- rows (each a list of lists of blocks)
+    | ETable [Inline] [Alignment] [Double] [TableCell] [[TableCell]] [(String, String)]   -- ^ Table,
     | Div Attr [Block]      -- ^ Generic block container with attributes
     | Null                  -- ^ Nothing
     deriving (Eq, Ord, Read, Show, Typeable, Data, Generic)
