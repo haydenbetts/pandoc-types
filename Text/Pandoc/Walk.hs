@@ -338,9 +338,9 @@ walkBlockM _ x@RawBlock {}            = return x
 walkBlockM _ HorizontalRule           = return HorizontalRule
 walkBlockM _ Null                     = return Null
 walkBlockM f (ETable capt as ws hs rs ks) = do capt' <- walkM f capt
-                                           hs' <- walkM f hs
-                                           rs' <- walkM f rs
-                                           return $ ETable capt' as ws hs' rs' ks
+                                               hs' <- walkM f hs
+                                               rs' <- walkM f rs
+                                               return $ ETable capt' as ws hs' rs' ks
 walkBlockM f (Table capt as ws hs rs) = do capt' <- walkM f capt
                                            hs' <- walkM f hs
                                            rs' <- walkM f rs
@@ -351,20 +351,21 @@ walkBlockM f (Table capt as ws hs rs) = do capt' <- walkM f capt
 queryBlock :: (Walkable a Citation, Walkable a [Block],
                 Walkable a [Inline], Monoid c)
            => (a -> c) -> Block -> c
-queryBlock f (Para xs)                = query f xs
-queryBlock f (Plain xs)               = query f xs
-queryBlock f (LineBlock xs)           = query f xs
-queryBlock _ (CodeBlock _ _)          = mempty
-queryBlock _ (RawBlock _ _)           = mempty
-queryBlock f (BlockQuote bs)          = query f bs
-queryBlock f (OrderedList _ cs)       = query f cs
-queryBlock f (BulletList cs)          = query f cs
-queryBlock f (DefinitionList xs)      = query f xs
-queryBlock f (Header _ _ xs)          = query f xs
-queryBlock _ HorizontalRule           = mempty
-queryBlock f (Table capt _ _ hs rs)   = query f capt <> query f hs <> query f rs
-queryBlock f (Div _ bs)               = query f bs
-queryBlock _ Null                     = mempty
+queryBlock f (Para xs)                  = query f xs
+queryBlock f (Plain xs)                 = query f xs
+queryBlock f (LineBlock xs)             = query f xs
+queryBlock _ (CodeBlock _ _)            = mempty
+queryBlock _ (RawBlock _ _)             = mempty
+queryBlock f (BlockQuote bs)            = query f bs
+queryBlock f (OrderedList _ cs)         = query f cs
+queryBlock f (BulletList cs)            = query f cs
+queryBlock f (DefinitionList xs)        = query f xs
+queryBlock f (Header _ _ xs)            = query f xs
+queryBlock _ HorizontalRule             = mempty
+queryBlock f (Table capt _ _ hs rs)     = query f capt <> query f hs <> query f rs
+queryBlock f (ETable capt _ _ hs rs kv) = query f capt <> query f hs <> query f rs
+queryBlock f (Div _ bs)                 = query f bs
+queryBlock _ Null                       = mempty
 
 -- | Helper method to walk to elements nested below @'MetaValue'@ nodes.
 --
