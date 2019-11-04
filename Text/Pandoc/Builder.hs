@@ -479,6 +479,21 @@ table caption cellspecs headers rows = singleton $
          numcols = length cellspecs
          pad element upTo list = take upTo (list ++ repeat element)
 
+-- | Table builder. Rows and headers will be padded or truncated to the size of
+-- @cellspecs@
+eTable :: Inlines               -- ^ Caption
+      -> [(Alignment, Double)] -- ^ Column alignments and fractional widths
+      -> [Blocks]              -- ^ Headers
+      -> [[Blocks]]            -- ^ Rows
+      -> [(String, String)]                  -- ^ Attributes
+      -> Blocks
+eTable caption cellspecs headers rows kvs = singleton $
+  Table (toList caption) aligns widths (sanitise headers) (map sanitise rows)
+    where (aligns, widths) = unzip cellspecs
+          sanitise = map toList . pad mempty numcols
+          numcols = length cellspecs
+          pad element upTo list = take upTo (list ++ repeat element)
+
 -- | A simple table without a caption.
 simpleTable :: [Blocks]   -- ^ Headers
             -> [[Blocks]] -- ^ Rows
